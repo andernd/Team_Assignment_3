@@ -1,9 +1,18 @@
+## Course: Visual Analytics for Policy and Management
+
+### Prof. José Manuel Magallanes, PhD 
+
 ```{r}
-link='https://github.com/andernd/Team_Assignment_3/raw/master/wa_data.RData'
+link='https://github.com/andernd/Team_Assignment_3/raw/master/wa_data1.RData'
 load(file=url(link))
+library(ggplot2)
+str(wa_data)
 
 ```
 
+```{r}
+
+```
 
 
 
