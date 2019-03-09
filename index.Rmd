@@ -3,16 +3,33 @@
 ### Prof. José Manuel Magallanes, PhD 
 
 ```{r}
-link='https://github.com/andernd/Team_Assignment_3/raw/master/wa_data1.RData'
+link='https://github.com/andernd/Team_Assignment_3/raw/master/wa_data.RData'
 load(file=url(link))
 library(ggplot2)
 str(wa_data)
-
 ```
 
 ```{r}
-
+str(wa_data,width = 70,strict.width='cut')
 ```
 
+```{r}
+zippedSHP = "https://github.com/andernd/Team_Assignment_3/raw/master/WA_County_Boundaries.zip"
+```
 
+```{r}
+library(utils)
+temp=tempfile()
+download.file(zippedSHP, temp)
+unzip(temp)
+```
+
+```{r}
+(maps=list.files(pattern = 'shp'))
+```
+
+```{r}
+library(rgdal)
+wazipMap <- readOGR("WA_County_Boundaries.shp",stringsAsFactors=F) #strings become factors?
+```
 
