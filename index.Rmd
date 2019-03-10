@@ -14,7 +14,7 @@ str(wa_data,width = 70,strict.width='cut')
 ```
 
 ```{r}
-zippedSHP = "https://github.com/andernd/Team_Assignment_3/raw/master/WA_County_Boundaries.zip"
+zippedSHP = "https://github.com/andernd/Team_Assignment_3/raw/master/cb_2017_53_tract_500k.zip"
 ```
 
 ```{r}
@@ -30,6 +30,15 @@ unzip(temp)
 
 ```{r}
 library(rgdal)
-wazipMap <- readOGR("WA_County_Boundaries.shp",stringsAsFactors=F) #strings become factors?
+WaZipMap <- readOGR("cb_2017_53_tract_500k.shp", stringsAsFactors=F) 
 ```
+
+```{r}
+plot(WaZipMap,
+     border='black',
+     col='gray',
+     lwd=0.5)
+```
+
+
 
