@@ -3,10 +3,10 @@
 ### Prof. José Manuel Magallanes, PhD 
 
 ```{r}
-link='https://github.com/andernd/Team_Assignment_3/raw/master/wa_data.RData'
+link='https://github.com/marcevl/Team-Assignments/raw/master/Internet2.RData'
 load(file=url(link))
 library(ggplot2)
-str(wa_data,width = 70,strict.width='cut')
+str(Internet2)
 ```
 
 ```{r Heatmap, eval=TRUE}

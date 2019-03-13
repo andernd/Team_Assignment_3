@@ -53,12 +53,12 @@ dwplot(allModels)
 
 ```{r}
 dwplot(allModels) + 
-    geom_vline(xintercept = 0, 
+  geom_vline(xintercept = 0, 
                colour = "green", 
                linetype = 2) + 
   scale_colour_grey(start = .1, end = .7) + 
   labs(y = "Factors",
-         title = "Correlation Between Speed Satisfaction & 
+title = "Correlation Between Speed Satisfaction & 
 Download, Upload, and Subscribed Speed", 
          caption = "Source:Stevenson Business and Organization Internet Survey") +
   theme(plot.margin=unit(c(1,1,.5,.5),'cm'),
@@ -89,4 +89,31 @@ ggplot(data = df.heatmap, aes(x = Satisfaction.Speed, y = ISP)) +
   geom_tile(aes(fill = Download.Speed))
 ```
 
+
+
+```{r}
+zippedSHP = "https://github.com/andernd/Team_Assignment_3/raw/master/cb_2017_53_tract_500k.zip"
+```
+
+```{r}
+library(utils)
+temp=tempfile()
+download.file(zippedSHP, temp)
+unzip(temp)
+```
+
+```{r}
+(maps=list.files(pattern = 'shp'))
+```
+
+```{r}
+library(rgdal)
+WaZipMap <- readOGR("cb_2017_53_tract_500k.shp", stringsAsFactors=F) 
+```
+
+```{r}
+plot(WaZipMap,
+     border='black',
+     col='gray',
+     lwd=0.5)
 
