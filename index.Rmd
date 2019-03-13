@@ -27,16 +27,22 @@ library(broom)
 library(dplyr)
 
 model1=lm(Satisfaction.Speed~Upload.Speed+Download.Speed,data=Internet2[,-1])
+summary(model1)
 
-model1_t = tidy(model1) %>%   # we save the result as a tidy object and...
-    mutate(model = "Model 1") # we add a column 'model' with values 'Model 1'
+model1_t = tidy(model1) %>% mutate(model = "Model 1") %>%
+   relabel_predictors(Upload.Speed = "Upload",
+                     Download.Speed = "Download",
+                     Subscribed.Speed = "Subscribed")
 ```
 
 ```{r}
 model2=lm(Satisfaction.Speed~Download.Speed+Upload.Speed+Subscribed.Speed,data=Internet2[,-1]) # ~. means: all the remaining variables
 summary(model2)
 
-model2_t <- tidy(model2) %>% mutate(model = "Model 2")
+model2_t <- tidy(model2) %>% mutate(model = "Model 2") %>%
+   relabel_predictors(Upload.Speed = "Upload",
+                     Download.Speed = "Download",
+                     Subscribed.Speed = "Subscribed")
 ```
 
 ```{r}
@@ -64,11 +70,10 @@ Download, Upload, and Subscribed Speed",
                     plot.subtitle = (element_text(hjust = 0.5, vjust = 2)),
                     plot.caption=element_text(size=9, vjust=-2),
                     text=element_text(color='black', size = 11),
+                    legend.title = element_blank(),
                     axis.line.y=element_line(color = 'black'),
                     axis.line.x=element_line(color='black'),
                     axis.text=element_text(size=8))
-
-
 ```
 
 
