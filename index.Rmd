@@ -76,6 +76,32 @@ Download, Upload, and Subscribed Speed",
                     axis.text=element_text(size=8))
 ```
 
+```{r}
+##Nathan's Heatmap!
+
+#loading data
+link='https://github.com/marcevl/Team-Assignments/raw/master/Internet2.RData'
+load(file=url(link))
+
+#changing download speed to a variable from 0-1
+Internet2$Download.Speed.Rescaled <- rescale(Internet2$Download.Speed)
+
+#adding data to data frame
+df1 <- Internet2
+
+#removing obervation with outlier
+df1 <- df1[-3,]
+
+#removing unnecessary variables from heatmap data frame
+df.heatmap <- df1[c(2,6,10,40)]
+
+#removing ISPs without many observations
+df.heatmap <- subset(df.heatmap, ISP %in% c("Wave", "CenturyLink", "GorgeNet"))
+
+#plotting heat map
+ggplot(data = df.heatmap, aes(x = Satisfaction.Speed, y = ISP)) +
+  geom_tile(aes(fill = Download.Speed.Rescaled))
+```
 
 
 
