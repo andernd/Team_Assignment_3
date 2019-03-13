@@ -59,7 +59,7 @@ dwplot(allModels) +
                colour = "green", 
                linetype = 2) + 
   scale_colour_grey(start = .1, end = .7) + 
-  labs(y = "Factors",
+  labs(y = "Independent Variables",
 title = "Correlation Between Speed Satisfaction & 
 Download, Upload, and Subscribed Speed", 
          caption = "Source:Stevenson Business and Organization Internet Survey") +
