@@ -1,41 +1,45 @@
-## Course: Visual Analytics for Policy and Management
-
-### Prof. José Manuel Magallanes, PhD 
+---
+title: "Kim's Multivariate Plot"
+output: html_notebook
+---
 
 ```{r}
-link='https://github.com/andernd/Team_Assignment_3/raw/master/wa_data.RData'
+link='https://github.com/marcevl/Team-Assignments/raw/master/Internet2.RData'
 load(file=url(link))
 library(ggplot2)
-str(wa_data,width = 70,strict.width='cut')
+str(Internet2)
 ```
 
-```{r Heatmap, eval=TRUE}
-library(ggplot2)
-
-df.heatmap <- expand.grid(ISP = c("CenturyLink", "Wave", "GorgeNet"),
-                          Satisfaction.Speed = c("1", "2", "3", "4", "5"))
-
-df.heatmap$Download.Speed <- rnorm(nrow(df.heatmap))
-
-ggplot(data = df.heatmap, aes(x = Satisfaction.Speed, y = ISP)) +
-  geom_tile(aes(fill = Download.Speed))
-```
-
-```{r Regression, eval=TRUE}
+```{r model1, eval=TRUE}
 library(dotwhisker)
 library(broom)
 library(dplyr)
 
 model1=lm(Satisfaction.Speed~Upload.Speed+Download.Speed,data=Internet2[,-1])
+```
 
+```{r}
+summary(model1)
+```
+
+```{r tidy, eval=TRUE}
 model1_t = tidy(model1) %>%   # we save the result as a tidy object and...
     mutate(model = "Model 1") # we add a column 'model' with values 'Model 1'
+
+model1_t
+```
+
+```{r}
+dwplot(model1) + geom_vline(xintercept = 0, 
+                              colour = "grey60", 
+                              linetype = 2) 
++ scale_colour_grey(start = .1, end = .7)#+theme_bw()
+                              
 ```
 
 ```{r}
 model2=lm(Satisfaction.Speed~Download.Speed+Upload.Speed+Subscribed.Speed,data=Internet2[,-1]) # ~. means: all the remaining variables
 summary(model2)
-
 model2_t <- tidy(model2) %>% mutate(model = "Model 2")
 ```
 
@@ -49,12 +53,12 @@ dwplot(allModels)
 
 ```{r}
 dwplot(allModels) + 
-  geom_vline(xintercept = 0, 
+    geom_vline(xintercept = 0, 
                colour = "green", 
                linetype = 2) + 
   scale_colour_grey(start = .1, end = .7) + 
   labs(y = "Factors",
-title = "Correlation Between Speed Satisfaction & 
+         title = "Correlation Between Speed Satisfaction & 
 Download, Upload, and Subscribed Speed", 
          caption = "Source:Stevenson Business and Organization Internet Survey") +
   theme(plot.margin=unit(c(1,1,.5,.5),'cm'),
@@ -68,12 +72,21 @@ Download, Upload, and Subscribed Speed",
                     axis.line.x=element_line(color='black'),
                     axis.text=element_text(size=8))
 
-
 ```
 
 
 
 
+```{r}
+library(ggplot2)
 
+df.heatmap <- expand.grid(ISP = c("CenturyLink", "Wave", "GorgeNet"),
+                          Satisfaction.Speed = c("1", "2", "3", "4", "5"))
+
+df.heatmap$Download.Speed <- rnorm(nrow(df.heatmap))
+
+ggplot(data = df.heatmap, aes(x = Satisfaction.Speed, y = ISP)) +
+  geom_tile(aes(fill = Download.Speed))
+```
 
 
