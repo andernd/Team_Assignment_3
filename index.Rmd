@@ -84,6 +84,8 @@ Download, Upload, and Subscribed Speed",
 ```{r}
 ##Nathan's Heatmap!
 
+library(scales)
+
 #loading data
 link='https://github.com/marcevl/Team-Assignments/raw/master/Internet2.RData'
 load(file=url(link))
