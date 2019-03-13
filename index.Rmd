@@ -13,7 +13,7 @@ _____
  
 _____
 
-```{r}
+```{r message= FALSE, warning = FALSE}
 # loading the data source and opening libraries
 link='https://github.com/marcevl/Team-Assignments/raw/master/Internet2.RData'
 load(file=url(link))
@@ -21,7 +21,7 @@ library(ggplot2)
 str(Internet2)
 ```
 
-```{r Regression, eval=TRUE}
+```{r message= FALSE, warning = FALSE}
 library(dotwhisker)
 library(broom)
 library(dplyr)
@@ -37,7 +37,7 @@ model1_t = tidy(model1) %>% mutate(model = "Model 1") %>%
                      Subscribed.Speed = "Subscribed")
 ```
 
-```{r}
+```{r message= FALSE, warning = FALSE}
 # creating second model of regression, this time with Subscribed Speeds 
 model2=lm(Satisfaction.Speed~Download.Speed+Upload.Speed+Subscribed.Speed,data=Internet2[,-1]) # ~. means: all the remaining variables
 summary(model2)
@@ -49,7 +49,7 @@ model2_t <- tidy(model2) %>% mutate(model = "Model 2") %>%
                      Subscribed.Speed = "Subscribed")
 ```
 
-```{r}
+```{r message= FALSE, warning = FALSE}
 # combining models 
 allModels=rbind(model1_t, model2_t)
 
@@ -57,7 +57,7 @@ allModels=rbind(model1_t, model2_t)
 dwplot(allModels) 
 ```
 
-```{r}
+```{r message= FALSE, warning = FALSE}
 # plotting models and adding/changing theme/text elements 
 dwplot(allModels) + 
   geom_vline(xintercept = 0, 
@@ -81,7 +81,7 @@ Download, Upload, and Subscribed Speed",
                     axis.text=element_text(size=8))
 ```
 
-```{r}
+```{r message= FALSE, warning = FALSE}
 ##Heatmap
 
 library(scales)
@@ -110,13 +110,17 @@ df.heatmap <- subset(df.heatmap, ISP %in% c("Wave", "CenturyLink", "GorgeNet"))
 heat1 = ggplot(data = df.heatmap, aes(x = Satisfaction.Speed, y = ISP)) +
   geom_tile(aes(fill = Download.Speed.Rescaled))
 
+heat1
+```
 
+
+```{r message= FALSE, warning = FALSE}
 #Adding theme elements
-
 heat1 = heat1 + labs(title='Satisfaction with ISP not correlated with Download Speed',
             y=NULL,
             x='Satisfaction rating',
-            caption='Source: Stevenson Business and Organization Internet Survey')
+            caption='Source: Stevenson Business and Organization Internet Survey',
+            fill='Range of \nDownload Speeds')
 
 heat2 = heat1 + theme(plot.margin=unit(c(.5,1,1,1),'cm'),
                     plot.title=(element_text(face='bold',
@@ -124,7 +128,10 @@ heat2 = heat1 + theme(plot.margin=unit(c(.5,1,1,1),'cm'),
                                             hjust=0,
                                 margin=unit(c(0,0,.5,0),'cm'))),
                     plot.subtitle = (element_text(hjust = 0.5, vjust = 2)),
-                    plot.caption=element_text(size=8, hjust=5),
+                    plot.caption=element_text(size=8, hjust=2),
+                    legend.text=element_blank(),
+                    legend.background=element_rect(linetype='solid',
+                                                   color='black'),
                     panel.background=element_rect(fill='white'),
                     text=element_text(color='gray25', size = 11),
                     axis.line.y=element_line(color = 'black'),
@@ -132,7 +139,9 @@ heat2 = heat1 + theme(plot.margin=unit(c(.5,1,1,1),'cm'),
                     axis.ticks=element_blank(),
                     axis.text=element_text(size=8))
 
-heat2
+heat2 + scale_fill_gradient(low='lightblue',high='navy',
+                            guide_colorbar(reverse=TRUE,
+                                           title='Download Speed'))
 ```
 
 
