@@ -82,9 +82,10 @@ Download, Upload, and Subscribed Speed",
 ```
 
 ```{r}
-##Nathan's Heatmap!
+##Heatmap
 
 library(scales)
+library(ggplot2)
 
 #loading data
 link='https://github.com/marcevl/Team-Assignments/raw/master/Internet2.RData'
@@ -106,10 +107,33 @@ df.heatmap <- df1[c(2,6,10,40)]
 df.heatmap <- subset(df.heatmap, ISP %in% c("Wave", "CenturyLink", "GorgeNet"))
 
 #plotting heat map
-ggplot(data = df.heatmap, aes(x = Satisfaction.Speed, y = ISP)) +
+heat1 = ggplot(data = df.heatmap, aes(x = Satisfaction.Speed, y = ISP)) +
   geom_tile(aes(fill = Download.Speed.Rescaled))
-```
 
+
+#Adding theme elements
+
+heat1 = heat1 + labs(title='Satisfaction with ISP not correlated with Download Speed',
+            y=NULL,
+            x='Satisfaction rating',
+            caption='Source: Stevenson Business and Organization Internet Survey')
+
+heat2 = heat1 + theme(plot.margin=unit(c(.5,1,1,1),'cm'),
+                    plot.title=(element_text(face='bold',
+                                            size=15,
+                                            hjust=0,
+                                margin=unit(c(0,0,.5,0),'cm'))),
+                    plot.subtitle = (element_text(hjust = 0.5, vjust = 2)),
+                    plot.caption=element_text(size=8, hjust=5),
+                    panel.background=element_rect(fill='white'),
+                    text=element_text(color='gray25', size = 11),
+                    axis.line.y=element_line(color = 'black'),
+                    axis.line.x=element_line(color='black'),
+                    axis.ticks=element_blank(),
+                    axis.text=element_text(size=8))
+
+heat2
+```
 
 
 
