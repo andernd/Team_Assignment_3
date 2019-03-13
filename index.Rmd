@@ -1,24 +1,24 @@
-## Course: Visual Analytics for Policy and Management
-
-### Prof. José Manuel Magallanes, PhD 
+<br>
+<center><img src="http://i.imgur.com/sSaOozN.png" width="500"></center>
+ 
+# Course: Visual Analytics for Policy and Management
+ 
+## Assignment 3: Multivariate plot
+ 
+_____
+<a id='part1'></a>
+ 
+### By Nathan Anderson-Hobbs, Johnson Nguyen, Kim Pearson & Marcela Vázquez
+###
+ 
+_____
 
 ```{r}
+# loading the data source and opening libraries
 link='https://github.com/marcevl/Team-Assignments/raw/master/Internet2.RData'
 load(file=url(link))
 library(ggplot2)
 str(Internet2)
-```
-
-```{r Heatmap, eval=TRUE}
-library(ggplot2)
-
-df.heatmap <- expand.grid(ISP = c("CenturyLink", "Wave", "GorgeNet"),
-                          Satisfaction.Speed = c("1", "2", "3", "4", "5"))
-
-df.heatmap$Download.Speed <- rnorm(nrow(df.heatmap))
-
-ggplot(data = df.heatmap, aes(x = Satisfaction.Speed, y = ISP)) +
-  geom_tile(aes(fill = Download.Speed))
 ```
 
 ```{r Regression, eval=TRUE}
@@ -26,9 +26,11 @@ library(dotwhisker)
 library(broom)
 library(dplyr)
 
-model1=lm(Satisfaction.Speed~Upload.Speed+Download.Speed,data=Internet2[,-1])
+# creating first model of regression for Download and Upload Speeds on Satisfaction with Speed
+model1=lm(Satisfaction.Speed~Download.Speed+Upload.Speed,data=Internet2[,-1])
 summary(model1)
 
+# tidying up and mutating model of regression
 model1_t = tidy(model1) %>% mutate(model = "Model 1") %>%
    relabel_predictors(Upload.Speed = "Upload",
                      Download.Speed = "Download",
@@ -36,9 +38,11 @@ model1_t = tidy(model1) %>% mutate(model = "Model 1") %>%
 ```
 
 ```{r}
+# creating second model of regression, this time with Subscribed Speeds 
 model2=lm(Satisfaction.Speed~Download.Speed+Upload.Speed+Subscribed.Speed,data=Internet2[,-1]) # ~. means: all the remaining variables
 summary(model2)
 
+# tidying up and mutating second model of regression 
 model2_t <- tidy(model2) %>% mutate(model = "Model 2") %>%
    relabel_predictors(Upload.Speed = "Upload",
                      Download.Speed = "Download",
@@ -46,7 +50,7 @@ model2_t <- tidy(model2) %>% mutate(model = "Model 2") %>%
 ```
 
 ```{r}
-# combining
+# combining models 
 allModels=rbind(model1_t, model2_t)
 
 #plotting
@@ -54,6 +58,7 @@ dwplot(allModels)
 ```
 
 ```{r}
+# plotting models and adding/changing theme/text elements 
 dwplot(allModels) + 
   geom_vline(xintercept = 0, 
                colour = "green", 
